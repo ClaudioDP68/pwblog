@@ -6,17 +6,12 @@
 package it.tss.blog.blog.control;
 
 import it.tss.blog.blog.entity.User;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import it.tss.blog.security.control.SecurityEncoding;

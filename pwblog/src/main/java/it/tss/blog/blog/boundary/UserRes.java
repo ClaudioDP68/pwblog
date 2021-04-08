@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 
 /**
@@ -50,6 +51,7 @@ public class UserRes {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "create user (permitall)")
     public Response create( User u) {
         System.out.println("sono in create" + u.toString());
         //u.setId(id);
@@ -68,7 +70,8 @@ public class UserRes {
     @RolesAllowed({"ADMIN", "USER"})
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed("users")
+    @Operation(summary = "find user (only user login)")
+    
     public User find(@PathParam("id") Long id) {
         boolean isUserRole = securityCtx.isUserInRole(User.Role.USER.name());
         if (isUserRole && (jwt == null || jwt.getSubject() == null || Long.parseLong(jwt.getSubject()) != id)) {
@@ -81,7 +84,8 @@ public class UserRes {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    //@RolesAllowed("users")
+    @RolesAllowed({"ADMIN"})  
+    @Operation(summary = "list all user (ADMIN)")
     public List<User> all() {
         
         return userstore.alluser();

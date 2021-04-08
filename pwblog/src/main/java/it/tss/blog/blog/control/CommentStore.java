@@ -6,6 +6,8 @@
 package it.tss.blog.blog.control;
 
 import it.tss.blog.blog.entity.Comment;
+import it.tss.blog.blog.entity.Commentjson;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.enterprise.context.RequestScoped;
+import javax.json.JsonObject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -44,9 +47,22 @@ public class CommentStore {
     public List<Comment> allcomment() {
         System.out.println("sono in allArticle");
         TypedQuery<Comment> createQuery = em.createQuery("select e from Comment e", Comment.class);
-        
-        
+
         List<Comment> resultList = createQuery.getResultList();
+
+        return resultList;
+    }
+
+    //public Optional<List<Comment>> commentsByArticle(Long articleId) {
+    public List<Comment> commentsByArticle(Long articleId) {
+        
+        String cQuery = "select e from Comment e where e.article.id=:art";
+        List resultList = em.createQuery(cQuery, Comment.class)
+                .setParameter("art", articleId)
+                
+                .getResultList();
+        
+        
         
         return resultList;
     }

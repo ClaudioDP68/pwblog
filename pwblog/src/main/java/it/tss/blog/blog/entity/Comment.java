@@ -68,7 +68,7 @@ public class Comment implements Serializable {
 
    
     public JsonObject toJson() {
-        AbstractEntity ab;
+        //AbstractEntity ab;
         return Json.createObjectBuilder()
                 .add("id", this.id)
                 .add("fname", this.user.getFname())
