@@ -7,44 +7,63 @@ package it.tss.blog.blog.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
  *
  * @author claudio
  */
+@NamedQueries({
+    @NamedQuery(name = User.LOGIN, query = "select e from User e where e.email= :email and e.pwd= :pwd and e.deleted=false")
+})
 
 @Entity
 @Table(name = "user")
-public class User extends AbstractEntity implements Serializable {
+public class User implements Serializable {
     
+     public static final String LOGIN = "User.login";
+     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     protected Long id;
     
+   
     
     public enum Role {
         ADMIN, USER
     }
 
     private String fname;
+    
     @Column(nullable = false)
     private String lname;
-    @Column(nullable = false, unique = true)
+    
+    @Column(nullable = false, unique = true)    
     private String email;
+    
     @Column(nullable = false)
     private String pwd;
     
     @Enumerated(EnumType.STRING)
+    @Schema(hidden = true)
     private Role role = Role.USER;
 
+    @Schema(hidden = true)
     private boolean deleted = false;
+    @Schema(hidden = true)
     private boolean banned = false;
 
     public Long getId() {
@@ -134,6 +153,11 @@ public class User extends AbstractEntity implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", fname=" + fname + ", lname=" + lname + ", email=" + email + ", pwd=" + pwd + ", role=" + role + ", deleted=" + deleted + ", banned=" + banned + '}';
     }
     
     
