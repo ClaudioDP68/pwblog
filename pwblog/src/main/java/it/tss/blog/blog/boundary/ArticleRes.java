@@ -30,12 +30,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement;
 //import org.hibernate.boot.cfgxml.spi.MappingReference;
 
 /**
  *
  * @author claudio
  */
+@SecurityRequirement(name = "jwt")
 @DenyAll
 @Path("/art")
 public class ArticleRes {

@@ -6,6 +6,7 @@
 package it.tss.blog.blog.control;
 
 import it.tss.blog.blog.entity.User;
+import it.tss.blog.blog.entity.UserUpdate;
 import java.util.List;
 import java.util.Optional;
 import javax.enterprise.context.RequestScoped;
@@ -43,7 +44,7 @@ public class UserStore {
         System.out.println("sono in alluser");
         TypedQuery<User> createQuery = em.createQuery("select e from User e", User.class);
         
-        System.out.println("sono in alluser 1");
+        
         List<User> resultList = createQuery.getResultList();
         
         return resultList;
@@ -59,6 +60,13 @@ public class UserStore {
         } catch (NoResultException ex) {
             return Optional.empty();
         }
+    }
+    
+    public User update(User user, UserUpdate u) {
+        user.setFname(u.fname);
+        user.setLname(u.lname);
+        user.setPwd(u.pwd);
+        return em.merge(user);
     }
 
 }
